@@ -3,7 +3,7 @@ Pirate King
 
 Survive on a mysterious pacific island populated by evil souls.
 
-Interesting files and classes
+About the code
 =====================
 
 The working title for this was "perlintest". At it's core, it generates a smooth, 2D tiled island based on noise data.
@@ -18,11 +18,17 @@ world.js
 
 Generate noise data and render it as a 2D tiled map. Three classes are doing the heavy lifting: `Chunk`, `AChunk` and `ChunkRenderer`.
 
-`Chunk` generates the 2d array of noise data. It those so by layering multiple bands of noise on top of each other because otherewise we'd get a pretty uniform, boring map.
+`Chunk`
 
-`AChunk` as in "A* pathfinding chunk". This class implements the `gamejs.pathfinding.astar.Map` interface. It holds a lower resolution data of the `Chunk` of our current island to be queried by the pathfinding.
+generates the 2d array of noise data. It those so by layering multiple bands of noise on top of each other because otherewise we'd get a pretty uniform, boring map.
 
-`ChunkRenderer` each of the eleven tiles (e.g., gras, water, sand, etc.) comes in nine versions (i.e. four corners, one center piece and four edge pieces). All nine versions are in one image. If you split this image in 3x3 pieces, you will get the nine versions:
+`AChunk`
+
+"AChunk" as in "A* pathfinding chunk". This class implements the `gamejs.pathfinding.astar.Map` interface. It holds a lower resolution data of the `Chunk` of our current island to be queried by the pathfinding.
+
+`ChunkRenderer`
+
+Each of the eleven tiles (e.g., gras, water, sand, etc.) comes in nine versions (i.e. four corners, one center piece and four edge pieces). All nine versions are in one image. If you split this image in 3x3 pieces, you will get the nine versions:
 
 ![Water tile](/images/terrain/water.png)
 
@@ -79,4 +85,6 @@ Graphics and sound:
  * <http://opengameart.org/content/ticking-clock>
  * <http://opengameart.org/content/rpg-icons>
 
+![CC0](http://i.creativecommons.org/p/zero/1.0/88x31.png)
 
+To the extent possible under law, the developers of the Pirate King source code have waived all copyright and related or neighboring rights to Pirate King. This work is published from: Austria. 
