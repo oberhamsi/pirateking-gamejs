@@ -24,7 +24,7 @@ generates the 2d array of noise data. It those so by layering multiple bands of 
 
 `AChunk`
 
-"AChunk" as in "A* pathfinding chunk". This class implements the `gamejs.pathfinding.astar.Map` interface. It holds a lower resolution data of the `Chunk` of our current island to be queried by the pathfinding.
+"AChunk" as in "A* pathfinding chunk". This class implements the [gamejs.pathfinding.astar.Map](http://docs.gamejs.org/gamejs/pathfinding/astar/) interface. It holds a lower resolution data of the `Chunk` of our current island to be queried by the pathfinding.
 
 `ChunkRenderer`
 
