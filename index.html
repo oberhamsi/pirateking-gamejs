@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GameJS Application</title>
+    <link href='http://fonts.googleapis.com/css?family=Aladin' rel='stylesheet' type='text/css'>
+    <link href='./bootstrap/css/bootstrap.css' rel='stylesheet' type='text/css'>
+        <link href="./kingmaker.css" type="text/css" rel="stylesheet">
+
+    <script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
+    <script src="./bootstrap/bootstrap.js"></script>
+<!-- Start javascript/main.js -->
+    <!--
+    <script src="./public/yabble.js"></script>
+    <script src="./public/gamejs.min.js"></script>
+     -->
+    <script src="./javascript/app.min.js"></script> 
+    <script>
+        require.setModuleRoot('./javascript/');
+        require.run('main')
+    </script>
+</head>
+<!-- Html -->
+<body>
+    <button id="gjs-fullscreen-toggle">Fullscreen</button>
+    <span id="tutorialbox"></span>
+    <div>
+        <div id="km-shop">
+        <h1> City </h1>
+        <p>
+            To exit the city, walk away from it with the arrow keys.
+        </p>
+        <ul>
+            <li id="km-shop-buypirate"> Hire a pirate (2 coins)
+            <li id="km-shop-buybomb"> Buy three Bombs (1 coin)
+            <li id="km-shop-buyheal"> Heal the captain (1 coin)
+        </ul>
+        You own: <br/>
+        <span id="km-shop-coins">0</span> gold coins<br/>
+        <span id="km-shop-bombs">0</span> bombs
+        </div>
+
+        <div id="gjs-loader">
+            <h1 class="aladin"> Pirate King [alpha]</h1>
+            <p>
+            <img id="km-portrait" style="width:64px" src=""><br>
+            </p>
+            <span id="km-play">
+                PLAY
+            </span>
+            <span id="km-loading">
+                Please wait.
+                Generating an island and its mythology...
+                <br/><br/>
+            </span>
+              <script>
+                var p = document.getElementById('km-portrait');
+                if (p) {
+                    var choices = [
+                        "./images/captain.png",
+                        "./images/pirate.png",
+                        "./images/cultist.png"
+                    ]
+                    var idx = parseInt(Math.random() * 3, 10);
+                    p.src = choices[idx];
+                }
+              </script>
+              <br/>
+
+              <div style="display:none">
+                <div class="km-helpquad">
+                    <p><img src="./images/arrowkeys.png" height="35px"></p>
+                    <p>Use the arrow keys to move.
+                    </p>
+                    <p>
+                      The arrow on top points to the inhabited village.
+                    </p>
+                    <p>
+                        This pacific island lies at<br/>
+                        <span id="coordx"></span> X / <span id="coordy"></span> Y
+                    </p>
+                </div>
+                <div class="km-helpquad">
+                  <p> Rapa Nui souls will appear at one or more temples in 10 seconds.
+                  </p>
+                    <p>
+                        Your crew will fight best if they attack the enemy head on.
+                    </p>
+                </div>
+                <div class="km-helpquad">
+                  <p> Dead enemies drop obolus coins. Walk over the
+                    coins to collect them.
+                    </p>
+                </div>
+                <div class="km-helpquad">
+                  <p>Search buildings
+                  for shelter. At some places you can hire new pirates and more.</p>
+                  </div>
+                <div class="km-helpquad">
+                  <p><span class="keyicon">Space</span> </p>
+                  <p>Bombs are throw. The longer you press the spacebar,
+                    the further you throw.</p>
+                  </div>
+                <div class="km-helpquad">
+                  <p><span class="keyicon">Shift</span></p>
+                  <p> Tell your crew to stand guard.
+                  Press again to call them back to you. </p>
+                  </div>
+                <br style="clear:both"/>
+              </div>
+              <div style="font-size:small">
+                  <i>Built by <a href=http://nekapuzer.at>Simon Oberhammer</a> using the <a href="http://gamejs.org">GameJs</a> library and lots of art love from <a href=http://opengameart.org>OpenGameArt</a>.</i>
+              </div>
+        </div>
+        <canvas id="gjs-canvas">
+                        </canvas>
+
+    </div>
+    <div id="km-end">
+        <h1>
+            <span class="aladin togglevis" id="km-end-victory">Victory</span>
+            <span class="aladin togglevis" id="km-end-defeat">Defeat</span>
+        </h1>
+            <a href="javascript:document.location.reload();">Play again on new map</a>
+            <p>You survived <span id="km-end-wave">&nbsp;</span> waves in <span id="km-end-time">&nbsp;</span> minutes.</p>
+            <div style="margin-left:30%">
+                <table id="km-scoreboard">
+                    <tr>
+                        <td> Enemies killed </td>
+                        <td id="km-end-enemy"> </td>
+                    </tr>
+                    <tr>
+                        <td> Coins collected </td>
+                        <td id="km-end-coin"> </td>
+                    </tr>
+                    <tr>
+                        <td>Pirates lost </td>
+                        <td id="km-end-friendly"> </td>
+                    </tr>
+                    <tr>
+                        <td>Pirates hired</td>
+                        <td id="km-end-pirate"> </td>
+                    </tr>
+                </table>
+            <div>
+        </h1>
+    </div>
+
+</body>
+</html>

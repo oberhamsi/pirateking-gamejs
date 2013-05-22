@@ -1,0 +1,132 @@
+        body{
+           background:#000;
+           color:#222;
+           margin:0.5em;
+           padding:0;
+           color:white;
+        }
+        #gjs-loader {
+            margin: 2em;
+            text-align:center;
+            font-size:x-large;
+            background-color: rgba(0,0,0,0.6);
+        }
+        #gjs-fullscreen-toggle {
+            float:right;
+        }
+        .aladin {
+            font-family: 'Aladin', cursive;
+            font-size: 3em;
+        }
+        #tutorialbox {
+            position:absolute;
+            bottom: 80px;
+            left: 150px;
+        }
+        .arrow {
+            display:none;
+        }
+        .popover-content {
+            font-family: 'Aladin', cursive;
+            text-align:center;
+            background-color: rgba(0,0,0,0.6);
+            font-size:x-large;
+        }
+        .arrow {
+            display:none;
+        }
+        #km-shop {
+            display:none;
+            position:absolute;
+            left: 2em;
+            top: 2em;
+            width:700px;
+            height:330px;
+            padding: 1em;
+            color:black;
+            -webkit-border-radius: 77px 86px 88px 77px;
+            -moz-border-radius: 77px 86px 88px 77px;
+            border-radius: 77px 86px 88px 77px;
+            border:10px solid #000000;
+            background-color: rgba(255,255,255,0.6);
+            -webkit-box-shadow: #B3B3B3 16px 16px 16px;
+            -moz-box-shadow: #B3B3B3 16px 16px 16px;
+            box-shadow: #B3B3B3 16px 16px 16px;
+            font-size:large;
+        }
+        #km-shop ul {
+            list-style-type:none;
+            font-size: x-large;
+        }
+        #km-shop li {
+            vertical-align:center;
+            height: 1em;
+            padding: 5px;
+            width: 50%;
+            text-decoration:underline;
+            color: blue;
+        }
+        #km-shop li:hover {
+            text-decoration:underline;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.5);
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            border-radius: 20px
+        }
+        #km-help {
+            margin: 1em;
+            font-size:large;
+            text-align:center;
+            width: 100%;
+        }
+        #km-play {
+            display:none;
+            text-align:center;
+            font-size:80px;
+            background: rgba(255, 255, 255, 0.5);
+        }
+        #km-play:hover {
+            text-decoration: underline;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        #km-end {
+            width: 100%;
+            height: 100%;
+            position:absolute;
+            left: 0px;
+            top: 0px;
+            margin: 0px;
+            background-color: rgba(0,0,0,0.7);
+            text-align:center;
+            display:none;
+            font-size:large;
+        }
+        #km-end h1 span.togglevis {
+            display:none;
+        }
+        #km-scoreboard {
+            border:0px;
+            text-align:right
+        }
+        #km-end a {
+            color:white;
+        }
+        #km-end a:hover {
+            background-color: #ccc;
+        }
+        #km-scoreboard tr td {
+            min-width: 80px;
+        }
+        .keyicon {
+           border: 3px solid;
+           border-color: #ddd #bbb #bbb #ddd;
+           background: #aaa;
+           padding: 3px 4px;
+           white-space:nowrap
+        }
+        a {
+            color:white;
+         }
