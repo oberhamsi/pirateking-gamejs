@@ -1,53 +1,46 @@
 Pirate King
 ==============
 
-Survive as long as you can on a mysterious island populated by evil souls.
+Survive on a mysterious pacific island populated by evil souls.
 
-About the code
+Interesting files and classes
 =====================
 
 The working title for this was "perlintest". At it's core, it generates a smooth, 2D tiled island based on noise data.
 
-world.js
------------------------
-
-Generate 2d noise data and render the data as a 2D tiled map.
-
-There's three Very Important Classes in here: `Chunk`, `AChunk` and `ChunkRenderer`.
-
-`Chunk` generates the 2d array of noise data. After the map array is filled by simplex, I create a water border around the edges (because it's an island...).
-   
-`AChunk` as in "A* pathfinding chunk". This class implements the `gamejs.pathfinding.astar.Map` interface. It holds a lower resolution data of the current island and provides methods to query it (which tile types are walkable? what other tiles is a tile connected to?).
-
-`ChunkRenderer` each of the eleven tiles (e.g., gras, water, sand, etc.) comes in nine versions (i.e. four corners, one center piece and four edge pieces). All nine versions are in one image (imagine a regular 3x3 grid on top of this image):
-
-![Water tile](/images/terrain/water.png)
-
-The corners and edges are necessary for transition from one tile type to another. Depending on neighbours on a tile, we need figure out, which of those nine versions to display. For example, if all neighbours are of the same type as the tile itself, we can use the center tile. If it has one side with a different neighbour, we use an edge pieces, etc. If you are paying attention, you should have noticed that nine pieces is not enough for all combinations of neighbours possible! But I made sure that the cases for which I didn't have images will not appear by tuning the noise.
-
-Initially, I wanted to have multiple islands per world. And that's why there is a `Map` which can hold several `Chunk`s (each of which is a complete island). Ignore all that.
-
 boids/boid.js & flock.js
 ------------------
 
-The boid code is a pretty literal translation of [Reynolds](http://www.red3d.com/cwr/boids/) pseudocode. Except that I added a "map force" in addition to the traditional forces ("seperation", "alignment" and "cohesion"). The "map force" pushes the individual boids away from unwalkable areas. This means that boids *can* walk over unwalkable tiles, they just avoid it. Only the whole swarm will follow the proper A* path, but individual boids might stray of a bit. I sometimes have 30 or more fast moving units on screen and can't possibly run expensive path finding for every single one of them. That sounds like a bug but keep in mind that most units are floating souls (all the fast ones are, which are most prone to running away to far from the best path).
+The boid code is a pretty literal translation of [Reynolds](http://www.red3d.com/cwr/boids/) pseudocode. Except that I added a "map force" in addition to the traditional forces. The "map force" pushes the individual boids away from unwalkable areas. This means that boids can and do walk over unwalkable tiles, they just *avoid* doing that. The whole swarm containing a boid will follow the proper, walkable A* path but individual boids will stray of a bit. I sometimes have 30 or more fast moving enemies on screen and can't possibly run expensive path finding for every single one of them. That sounds like a bug but keep in mind that most units are floating souls...
 
-explosion.js
-----------------
+world.js
+-----------------------
 
-Interesting to the GameJs and PyGame crowd: it's a `gamejs.sprite.Sprite` implementation which explodes any `Surface` into a specific direction.
+Generate noise data and render it as a 2D tiled map. Three classes are doing the heavy lifting: `Chunk`, `AChunk` and `ChunkRenderer`.
+
+`Chunk` generates the 2d array of noise data. It those so by layering multiple bands of noise on top of each other because otherewise we'd get a pretty uniform, boring map.
+
+`AChunk` as in "A* pathfinding chunk". This class implements the `gamejs.pathfinding.astar.Map` interface. It holds a lower resolution data of the `Chunk` of our current island to be queried by the pathfinding.
+
+`ChunkRenderer` each of the eleven tiles (e.g., gras, water, sand, etc.) comes in nine versions (i.e. four corners, one center piece and four edge pieces). All nine versions are in one image. If you split this image in 3x3 pieces, you will get the nine versions:
+
+![Water tile](/images/terrain/water.png)
+
+The eight corners and edges (so everything except the center piece) are necessary for transition from one tile type to another tile type. Depending on the neighbours of a tile, we need to figure out which of those nine versions to display. For example, if all neighbours are of the same type as the tile itself, we can use the center tile. If it has one side with a different neighbour, we use an edge pieces, etc. Nine pieces is not enough for all combinations of neighbours possible but I made sure that the cases for which I didn't have images will not appear in the map by tuning the noise.
+
+Initially, I wanted to have multiple islands per world. And that's why there is a `Map` which can hold several `Chunk`s (each of which is a complete island). Ignore all that: I never load more than one Chunk in a game.
 
 
 The long story of how I got A* to perform in a browser environment
 =====================================
 
-I knew A* is slow so I wanted to do the path-finding on a lower resolution version of the 2d data. The 2d array I use to render the map is 140x140. It took way to long to get a path - the game would often skip 10 frames or more and what was even worse: it would ignore any input during that time. Stutter galore! I *tried* to solve this by "zooming" the perlin noise out, which give me the same landscape in a lower resolution. This also meant smaller features were no longer present in the zommed out version but my maps didn't have those and without too much zooming out, it shouldn't make much of difference.
+I knew A* is expensive so I planned to do the path-finding on a lower resolution version of the 2d data. The full resolution 2d array I use to render the map is 140x140. For that size it too long to find a path on a typical map; the game would often skip a dozen frames or more and what was even worse: it would ignore any input during that time. Stutter galore! I *tried* to solve this by zooming the perlin noise out, which give me the same landscape in a lower resolution. I could than do the pathfinding queries on a - say - 70x70 grid and get roughly the same result unless there are too may small map features, which disappear in the zoomed out version. I got this to work with a 5x zoom. 
 
-I got this to work with a 5x zoom. That did help a lot with performance but it still took too long to get a path. As I later found out, in one situation it was very noticable: when enemy swarms and the player character are fighting. Basically, when enemies and the player are on he same screen I have to run A* much more frequently to create attack behaviours different from a bull just trying to ram into the target. This nearly killed the project: the game performed worst in the most interesting situation.
+The lower resolution pathfinding did help a lot with performance but it still took too long to get a path. As I later found out, in one situation it was particularly noticable: when the player fights enemy swarms. Basically, when enemies and the player are on the same screen (combat is near!) I have to run A* much more frequently for the enemies to create attack behaviours different from a bull just trying to ram a target. This nearly killed the project: the game performed worst in the most interesting situation.
 
-Half a year later it became feasible to use WebWorkers. Once I had those in gamejs (thanks to the [gamejs/worker](http://docs.gamejs.org/gamejs/worker/) module) I basically had a whole CPU just for crunching on A*. This made all my A* performance problems go away and I ended up using the same grid size for A* as for rendering the map (by setting zoom to "1x"...).
+Half a year later it became feasible to use WebWorkers in most browsers. Once I had access to WebWorkers in GameJs (thanks to the [gamejs/worker](http://docs.gamejs.org/gamejs/worker/) module) I had a whole CPU just for crunching on my A* queries. This made all my A* performance problems go away and I ended up using the same grid size for A* as for rendering the map (by setting zoom to "1x"...).
 
-One caveat: this kind of asynchronous A* is not going to work for any game. There's still a considerable delay for requiring a path, but at least with a Worker the game doesn't block (it keeps rendering and recieving input). And for Pirate King, that is alright because the individual boids will continue buzzing around even if no new waypoint is set. The fact that the boids are still hovering at the last waypoint, waiting for a new path, is hardly noticable to the player.
+One caveat: this kind of asynchronous A* is not going to work for any game. There is a considerable delay between requesting a path and actually getting the path information. But what WebWorkers helped me with is that the game doesn't block (it keeps rendering and I can recieve and react to player input). And for Pirate King, the pathfinding delay is problem because the individual boids will continue buzzing around even if no new waypoint is set.
 
 Credits
 ==========
