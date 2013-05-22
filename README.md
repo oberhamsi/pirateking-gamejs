@@ -46,7 +46,7 @@ The lower resolution pathfinding did help a lot with performance but it still to
 
 Half a year later it became feasible to use WebWorkers in most browsers. Once I had access to WebWorkers in GameJs (thanks to the [gamejs/worker](http://docs.gamejs.org/gamejs/worker/) module) I had a whole CPU just for crunching on my A* queries. This made all my A* performance problems go away and I ended up using the same grid size for A* as for rendering the map (by setting zoom to "1x"...).
 
-One caveat: this kind of asynchronous A* is not going to work for any game. There is a considerable delay between requesting a path and actually getting the path information. But what WebWorkers helped me with is that the game doesn't block (it keeps rendering and I can recieve and react to player input). And for Pirate King, the pathfinding delay is problem because the individual boids will continue buzzing around even if no new waypoint is set.
+One caveat: this kind of asynchronous A* is not going to work for any game. There is a considerable delay between requesting a path and actually getting the path information. But what WebWorkers helped me with is that the game doesn't block (it keeps rendering and I can recieve and react to player input). And for Pirate King, the pathfinding delay is not problem because the individual boids will continue buzzing around even if no new waypoint is set.
 
 Credits
 ==========
